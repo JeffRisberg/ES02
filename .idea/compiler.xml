@@ -4,9 +4,5 @@
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="ES02_main" target="1.7" />
-      <module name="ES02_test" target="1.7" />
-    </bytecodeTargetLevel>
   </component>
 </project>

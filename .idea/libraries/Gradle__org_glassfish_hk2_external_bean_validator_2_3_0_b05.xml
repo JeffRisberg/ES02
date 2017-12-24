@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.glassfish.hk2.external:bean-validator:2.3.0-b05">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2.external/bean-validator/2.3.0-b05/8c6fceb16d884681c342df02e97affdb3e68ac12/bean-validator-2.3.0-b05.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2.external/bean-validator/2.3.0-b05/d4365b8028d10d142c2ee7135af128d29ef4925f/bean-validator-2.3.0-b05-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
