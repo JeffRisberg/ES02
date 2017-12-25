@@ -4,9 +4,6 @@ import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.TransportAddress;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 
 import javax.inject.Inject;
@@ -18,16 +15,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.InetSocketAddress;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Jeff Risberg
  * @since 12/23/17
  */
 @Singleton
-@Path("search")
-public class SearchEndpoint {
+@Path("get")
+public class GetEndpoint {
 
     String clusterName = "elasticsearch";
     String indexName = "product";
@@ -35,7 +30,7 @@ public class SearchEndpoint {
     protected Client client;
 
     @Inject
-    public SearchEndpoint() {
+    public GetEndpoint() {
 
         Settings settings = Settings.builder()
                 .put("cluster.name", clusterName).build();
@@ -45,19 +40,13 @@ public class SearchEndpoint {
     }
 
     @GET
-    @Path("{query}")
+    @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response matchQuery(@PathParam("query") String queryStr) {
-        QueryBuilder query = QueryBuilders.matchQuery("description", queryStr);
-        System.out.println("getMatchAllQueryCount query => " + query.toString());
+    public Response getOne(@PathParam("id") String id) {
+        GetResponse response = client.prepareGet(indexName, "default", id).get();
 
-        SearchHit[] hits = client.prepareSearch(indexName).setQuery(query).execute().actionGet().getHits().getHits();
+        String responseString = response.getSourceAsString();
 
-        List<String> list = new ArrayList<String>();
-        for (SearchHit hit : hits) {
-            list.add(hit.getSourceAsString());
-        }
-
-        return Response.status(Response.Status.OK).entity(list).build();
+        return Response.status(Response.Status.OK).entity(responseString).build();
     }
 }
