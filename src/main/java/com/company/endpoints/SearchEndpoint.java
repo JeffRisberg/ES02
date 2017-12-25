@@ -1,5 +1,6 @@
 package com.company.endpoints;
 
+import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.TransportAddress;
@@ -21,13 +22,15 @@ import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
+
 /**
  * @author Jeff Risberg
  * @since 12/23/17
  */
 @Singleton
-@Path("query")
-public class QueryEndpoint {
+@Path("search")
+public class SearchEndpoint {
 
     String clusterName = "elasticsearch";
     String indexName = "product";
@@ -35,7 +38,7 @@ public class QueryEndpoint {
     protected Client client;
 
     @Inject
-    public QueryEndpoint() {
+    public SearchEndpoint() {
 
         Settings settings = Settings.builder()
                 .put("cluster.name", clusterName).build();
@@ -44,11 +47,26 @@ public class QueryEndpoint {
                 .addTransportAddress(new TransportAddress(new InetSocketAddress("127.0.0.1", 9300)));
     }
 
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getOne() {
+        GetRequest getRequest = new GetRequest();
+        getRequest();
+
+        List<String> list = new ArrayList<String>();
+        for (SearchHit hit : hits) {
+            list.add(hit.getSourceAsString());
+        }
+
+        return Response.status(Response.Status.OK).entity(list).build();
+    }
+
     @GET
     @Path("{query}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response handle(@PathParam("query") String queryStr) {
-        QueryBuilder query = QueryBuilders.matchAllQuery();
+    public Response matchQuery(@PathParam("query") String queryStr) {
+        QueryBuilder query = QueryBuilders.matchQuery("description", queryStr);
         System.out.println("getMatchAllQueryCount query => " + query.toString());
 
         SearchHit[] hits = client.prepareSearch(indexName).setQuery(query).execute().actionGet().getHits().getHits();
@@ -58,8 +76,6 @@ public class QueryEndpoint {
             list.add(hit.getSourceAsString());
         }
 
-        GenericEntity<List<String>> entity = new GenericEntity<List<String>>(list) {};
-
-        return Response.status(Response.Status.OK).entity(entity).build();
+        return Response.status(Response.Status.OK).entity(list).build();
     }
 }
