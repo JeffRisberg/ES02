@@ -28,6 +28,8 @@ dependencies {
     compile group: 'org.glassfish.hk2', name: 'hk2', version: '2.3.0-b05'
     compile group: 'org.glassfish.hk2', name: 'guice-bridge', version: '2.2.0'
 
+    compile 'org.glassfish.jersey.media:jersey-media-json-jackson:${jersey.version}'
+
     compile group: 'org.elasticsearch.client', name: 'transport', version: elasticSearchClientVersion
 
     testCompile group: 'junit', name: 'junit', version: junitVersion
