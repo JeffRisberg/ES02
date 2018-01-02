@@ -9,7 +9,7 @@ version = '0.1.0'
 ext {
     slf4jVersion = '1.7.24'
     jerseyVersion = '2.9.1'
-    elasticSearchClientVersion = '6.0.1'
+    elasticSearchClientVersion = '6.1.1'
     junitVersion = '4.12'
 }
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module external.linked.project.id="ES02:main" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="GRADLE" external.system.module.group="" external.system.module.type="sourceSet" external.system.module.version="0.1.0" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7">
     <output url="file://$MODULE_DIR$/../../out/production/classes" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../src/main">
@@ -11,8 +11,8 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.24" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-servlet:9.2.0.v20140526" level="project" />
-    <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-security:9.2.0.v20140526" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.slf4j:slf4j-simple:1.7.24" level="project" />
+    <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-security:9.2.0.v20140526" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-server:9.2.0.v20140526" level="project" />
     <orderEntry type="library" name="Gradle: org.glassfish.jersey.containers:jersey-container-servlet:2.9.1" level="project" />
     <orderEntry type="library" name="Gradle: org.glassfish.jersey.containers:jersey-container-servlet-core:2.9.1" level="project" />
