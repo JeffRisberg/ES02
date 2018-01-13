@@ -1,6 +1,5 @@
 package com.company.endpoints;
 
-import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.TransportAddress;
@@ -48,8 +47,8 @@ public class SearchEndpoint {
     @Path("{query}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response matchQuery(@PathParam("query") String queryStr) {
-        QueryBuilder query = QueryBuilders.matchQuery("description", queryStr);
-        System.out.println("getMatchAllQueryCount query => " + query.toString());
+        QueryBuilder query = QueryBuilders.matchPhraseQuery("description", queryStr);
+        System.out.println("search query => " + query.toString());
 
         SearchHit[] hits = client.prepareSearch(indexName).setQuery(query).execute().actionGet().getHits().getHits();
 
