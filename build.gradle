@@ -7,9 +7,9 @@ apply plugin: 'java'
 version = '0.1.0'
 
 ext {
-    slf4jVersion = '1.7.25'
+    slf4jVersion = '1.7.26'
     jerseyVersion = '2.9.1'
-    elasticSearchClientVersion = '6.1.1'
+    elasticSearchClientVersion = '6.4.3'
     junitVersion = '4.12'
 }
 
