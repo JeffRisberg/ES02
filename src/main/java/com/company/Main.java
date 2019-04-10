@@ -19,28 +19,28 @@ import java.net.InetSocketAddress;
  * @since 11/30/17
  */
 public class Main {
-    private static final Logger logger = LoggerFactory.getLogger(Main.class);
+  private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
-    public static void main(String[] args) throws Exception {
-        logger.error("main starting");
+  public static void main(String[] args) throws Exception {
+    logger.error("main starting");
 
-        String clusterName = "elasticsearch";
-        String indexName = "product";
+    String clusterName = "elasticsearch";
+    String indexName = "product";
 
-        Settings settings = Settings.builder()
-                .put("cluster.name", clusterName).build();
+    Settings settings = Settings.builder()
+      .put("cluster.name", clusterName).build();
 
-        Client client = new PreBuiltTransportClient(settings)
-                .addTransportAddress(new TransportAddress(new InetSocketAddress("127.0.0.1", 9300)));
+    Client client = new PreBuiltTransportClient(settings)
+      .addTransportAddress(new TransportAddress(new InetSocketAddress("127.0.0.1", 9300)));
 
-        Server server = new Server(8080);
+    Server server = new Server(8080);
 
-        ServletContextHandler sch = new ServletContextHandler(server, "/");
-        ServletHolder jerseyServletHolder = new ServletHolder(new ServletContainer());
-        jerseyServletHolder.setInitParameter(ServletProperties.JAXRS_APPLICATION_CLASS, MainApplication.class.getCanonicalName());
-        sch.addServlet(jerseyServletHolder, "/*");
+    ServletContextHandler sch = new ServletContextHandler(server, "/");
+    ServletHolder jerseyServletHolder = new ServletHolder(new ServletContainer());
+    jerseyServletHolder.setInitParameter(ServletProperties.JAXRS_APPLICATION_CLASS, MainApplication.class.getCanonicalName());
+    sch.addServlet(jerseyServletHolder, "/*");
 
-        server.start();
-        server.join();
-    }
+    server.start();
+    server.join();
+  }
 }

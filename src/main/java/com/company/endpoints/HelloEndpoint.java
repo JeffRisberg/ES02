@@ -14,13 +14,13 @@ import javax.ws.rs.core.Response;
 @Path("hello")
 public class HelloEndpoint {
 
-    @Inject
-    public HelloEndpoint() {
-    }
+  @Inject
+  public HelloEndpoint() {
+  }
 
-    @GET
-    public Response handle() {
-        Object results = "Hello There";
-        return Response.status(Response.Status.OK).entity(results).build();
-    }
+  @GET
+  public Response handle() {
+    Object results = "Hello There";
+    return Response.status(Response.Status.OK).entity(results).build();
+  }
 }
