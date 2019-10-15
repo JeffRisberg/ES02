@@ -20,7 +20,7 @@ public class DataService {
   public List<String> getMatchAllQueryData() {
     QueryBuilder query = matchAllQuery();
     System.out.println("getMatchAllQueryCount query =>" + query.toString());
-    SearchHit[] hits = client.prepareSearch("product").setQuery(query).execute().actionGet().getHits().getHits();
+    SearchHit[] hits = client.prepareSearch("products").setQuery(query).execute().actionGet().getHits().getHits();
     List<String> list = new ArrayList<String>();
     for (SearchHit hit : hits) {
       // hit.sourceAsMap()
@@ -34,7 +34,7 @@ public class DataService {
       termQuery("name", "satendra")
     ).must(termQuery("location", "india"));
     System.out.println("getBoolQueryCount query =>" + query.toString());
-    SearchHit[] hits = client.prepareSearch("product").setQuery(query).execute().actionGet().getHits().getHits();
+    SearchHit[] hits = client.prepareSearch("products").setQuery(query).execute().actionGet().getHits().getHits();
     List<String> list = new ArrayList<String>();
     for (SearchHit hit : hits) {
       // hit.sourceAsMap()
@@ -46,7 +46,7 @@ public class DataService {
   public List<String> getPhraseQueryData() {
     QueryBuilder query = matchPhraseQuery("name", "satendra");
     System.out.println("getPhraseQueryCount query =>" + query.toString());
-    SearchHit[] hits = client.prepareSearch("product").setQuery(query).execute().actionGet().getHits().getHits();
+    SearchHit[] hits = client.prepareSearch("products").setQuery(query).execute().actionGet().getHits().getHits();
     List<String> list = new ArrayList<String>();
     for (SearchHit hit : hits) {
       // hit.sourceAsMap()

@@ -29,7 +29,7 @@ import java.util.List;
 public class SearchEndpoint {
 
   String clusterName = "elasticsearch";
-  String indexName = "product";
+  String indexName = "products";
 
   protected Client client;
 

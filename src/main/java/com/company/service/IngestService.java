@@ -15,12 +15,12 @@ public class IngestService {
   }
 
   public IndexResponse ingest(String type, String doc) {
-    return client.prepareIndex("es01", type).setSource(doc).get();
+    return client.prepareIndex("products", type).setSource(doc).get();
   }
 
   public boolean ingest(String type, List<String> docs) {
     BulkRequestBuilder bulkRequest = client.prepareBulk();
-    docs.forEach(doc -> bulkRequest.add(client.prepareIndex("es01", type).setSource(doc)));
+    docs.forEach(doc -> bulkRequest.add(client.prepareIndex("products", type).setSource(doc)));
 
     return bulkRequest.get().hasFailures();
   }

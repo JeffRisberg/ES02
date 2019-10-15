@@ -15,7 +15,7 @@ public class DeleteService {
   }
 
   public DeleteResponse delete(String id) {
-    return client.prepareDelete("test", "tweet", id).get();
+    return client.prepareDelete("products", "tweet", id).get();
   }
 
   public long deleteByQuery(String name) {

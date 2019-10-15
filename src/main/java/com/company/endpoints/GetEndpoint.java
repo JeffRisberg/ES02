@@ -25,7 +25,7 @@ import java.net.InetSocketAddress;
 public class GetEndpoint {
 
   String clusterName = "elasticsearch";
-  String indexName = "product";
+  String indexName = "products";
 
   protected Client client;
 

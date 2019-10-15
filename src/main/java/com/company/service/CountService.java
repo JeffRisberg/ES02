@@ -16,7 +16,7 @@ public class CountService {
   public long getMatchAllQueryCount() {
     QueryBuilder query = matchAllQuery();
     System.out.println("getMatchAllQueryCount query =>" + query.toString());
-    long count = client.prepareSearch("product").setQuery(query).setSize(0).execute().actionGet().getHits().getTotalHits();
+    long count = client.prepareSearch("products").setQuery(query).setSize(0).execute().actionGet().getHits().getTotalHits();
     return count;
   }
 
@@ -25,14 +25,14 @@ public class CountService {
       termQuery("name", "satendra")
     ).must(termQuery("location", "india"));
     System.out.println("getBoolQueryCount query =>" + query.toString());
-    long count = client.prepareSearch("product").setQuery(query).setSize(0).execute().actionGet().getHits().getTotalHits();
+    long count = client.prepareSearch("products").setQuery(query).setSize(0).execute().actionGet().getHits().getTotalHits();
     return count;
   }
 
   public long getPhraseQueryCount() {
     QueryBuilder query = matchPhraseQuery("name", "satendra");
     System.out.println("getPhraseQueryCount query =>" + query.toString());
-    long count = client.prepareSearch("product").setQuery(query).setSize(0).execute().actionGet().getHits().getTotalHits();
+    long count = client.prepareSearch("products").setQuery(query).setSize(0).execute().actionGet().getHits().getTotalHits();
     return count;
   }
 
