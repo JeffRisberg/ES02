@@ -25,8 +25,8 @@ import java.util.List;
  * @since 12/23/17
  */
 @Singleton
-@Path("search")
-public class SearchEndpoint {
+@Path("match")
+public class MatchEndpoint {
 
   String clusterName = "elasticsearch";
   String indexName = "products";
@@ -34,7 +34,7 @@ public class SearchEndpoint {
   protected Client client;
 
   @Inject
-  public SearchEndpoint() {
+  public MatchEndpoint() {
 
     Settings settings = Settings.builder()
       .put("cluster.name", clusterName).build();
@@ -47,7 +47,7 @@ public class SearchEndpoint {
   @Path("{query}")
   @Produces(MediaType.APPLICATION_JSON)
   public Response matchQuery(@PathParam("query") String queryStr) {
-    QueryBuilder query = QueryBuilders.matchPhraseQuery("description", queryStr);
+    QueryBuilder query = QueryBuilders.matchQuery("description", queryStr);
     System.out.println("search query => " + query.toString());
 
     SearchHit[] hits = client.prepareSearch(indexName).setQuery(query).execute().actionGet().getHits().getHits();

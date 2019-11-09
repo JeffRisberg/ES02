@@ -11,7 +11,7 @@
 
 1) test with http://localhost:8080/hello
 2) then try http://localhost:8080/get/1
-3) then try http://localhost:8080/search/Pellentesque
+3) then try http://localhost:8080/match/Pellentesque
 
 This will perform a MatchQuery for products with "Pellentesque" in their description.
 There are about 6-8 of them.
