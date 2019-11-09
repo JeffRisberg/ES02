@@ -25,7 +25,7 @@ public class Main {
     logger.error("main starting");
 
     String clusterName = "elasticsearch";
-    String indexName = "product";
+    String indexName = "products";
 
     Settings settings = Settings.builder()
       .put("cluster.name", clusterName).build();
