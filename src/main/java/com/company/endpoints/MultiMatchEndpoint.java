@@ -55,11 +55,15 @@ public class MultiMatchEndpoint {
 
     List<JSONObject> list = new ArrayList<JSONObject>();
     for (SearchHit hit : hits) {
-      JSONObject x = new JSONObject();
-      x.put("_id", hit.getId());
-      x.put("_score", hit.getScore());
-      x.put("_source", hit.getSourceAsMap());
-      list.add(x);
+      JSONObject hitJSON = new JSONObject();
+
+      hitJSON.put("_id", hit.getId());
+      hitJSON.put("_score", hit.getScore());
+      hitJSON.put("_index", hit.getIndex());
+      hitJSON.put("_type", hit.getType());
+      hitJSON.put("_source", hit.getSourceAsMap());
+
+      list.add(hitJSON);
     }
 
     return Response.status(Response.Status.OK).entity(list).build();
