@@ -66,7 +66,6 @@ public class MatchEndpoint {
       list.add(hitJSON);
     }
 
-
     return Response.status(Response.Status.OK).entity(list).build();
   }
 }

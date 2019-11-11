@@ -7,6 +7,7 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
+import org.json.simple.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -52,9 +53,17 @@ public class MatchPhraseEndpoint {
 
     SearchHit[] hits = client.prepareSearch(indexName).setQuery(query).execute().actionGet().getHits().getHits();
 
-    List<String> list = new ArrayList<String>();
+    List<JSONObject> list = new ArrayList<JSONObject>();
     for (SearchHit hit : hits) {
-      list.add(hit.getSourceAsString());
+      JSONObject hitJSON = new JSONObject();
+
+      hitJSON.put("_id", hit.getId());
+      hitJSON.put("_score", hit.getScore());
+      hitJSON.put("_index", hit.getIndex());
+      hitJSON.put("_type", hit.getType());
+      hitJSON.put("_source", hit.getSourceAsMap());
+
+      list.add(hitJSON);
     }
 
     return Response.status(Response.Status.OK).entity(list).build();

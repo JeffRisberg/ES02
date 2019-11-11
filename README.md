@@ -9,10 +9,20 @@
 
 ### Start the application
 
-1) test with http://localhost:8080/hello
-2) then try http://localhost:8080/get/1
-3) then try http://localhost:8080/match/Pellentesque
+1) Test with http://localhost:8080/hello
+2) Then try http://localhost:8080/get/1
+3) Then try http://localhost:8080/term/meat
+
+This will perform a TermQuery for products with "meat" in the their category.
+
+4) Then try http://localhost:8080/match/Pellentesque
 
 This will perform a MatchQuery for products with "Pellentesque" in their description.
-There are about 6-8 of them.
+There are about 190 of them of them, but we only fetch the first 10.
+
+5) Then try http://localhost:8080/matchPhrase/Pellentesque ultrices
+
+This will perform a MatchPhraseQuery for products with "Pellentesque ultrices" in
+their description (as a phrase, meaning that words must be adjacent within the slop 
+factor).  We only fetch the first 10.
      
