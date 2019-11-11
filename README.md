@@ -13,7 +13,8 @@
 2) Then try http://localhost:8080/get/1
 3) Then try http://localhost:8080/term/meat
 
-This will perform a TermQuery for products with "meat" in the their category.
+This will perform a TermQuery for products with "meat" in the their category.  We 
+only fetch the first 20 (there about about 19 of them).
 
 4) Then try http://localhost:8080/match/Pellentesque
 

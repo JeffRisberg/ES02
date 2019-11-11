@@ -1,5 +1,6 @@
 package com.company.endpoints;
 
+import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.TransportAddress;
@@ -51,7 +52,10 @@ public class TermEndpoint {
     QueryBuilder query = QueryBuilders.termQuery("category", queryStr);
     System.out.println("search query => " + query.toString());
 
-    SearchHit[] hits = client.prepareSearch(indexName).setQuery(query).execute().actionGet().getHits().getHits();
+    SearchRequestBuilder searchRequest = client.prepareSearch(indexName);
+    searchRequest.setQuery(query).setSize(20);
+
+    SearchHit[] hits = searchRequest.execute().actionGet().getHits().getHits();
 
     List<JSONObject> list = new ArrayList<JSONObject>();
     for (SearchHit hit : hits) {
