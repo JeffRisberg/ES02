@@ -24,29 +24,29 @@ import java.net.InetSocketAddress;
 @Path("get")
 public class GetEndpoint {
 
-    String clusterName = "elasticsearch";
-    String indexName = "product";
+  String clusterName = "elasticsearch";
+  String indexName = "products";
 
-    protected Client client;
+  protected Client client;
 
-    @Inject
-    public GetEndpoint() {
+  @Inject
+  public GetEndpoint() {
 
-        Settings settings = Settings.builder()
-                .put("cluster.name", clusterName).build();
+    Settings settings = Settings.builder()
+      .put("cluster.name", clusterName).build();
 
-        this.client = new PreBuiltTransportClient(settings)
-                .addTransportAddress(new TransportAddress(new InetSocketAddress("127.0.0.1", 9300)));
-    }
+    this.client = new PreBuiltTransportClient(settings)
+      .addTransportAddress(new TransportAddress(new InetSocketAddress("127.0.0.1", 9300)));
+  }
 
-    @GET
-    @Path("{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getOne(@PathParam("id") String id) {
-        GetResponse response = client.prepareGet(indexName, "default", id).get();
+  @GET
+  @Path("{id}")
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response getOne(@PathParam("id") String id) {
+    GetResponse response = client.prepareGet(indexName, "default", id).get();
 
-        String responseString = response.getSourceAsString();
+    String responseString = response.getSourceAsString();
 
-        return Response.status(Response.Status.OK).entity(responseString).build();
-    }
+    return Response.status(Response.Status.OK).entity(responseString).build();
+  }
 }
