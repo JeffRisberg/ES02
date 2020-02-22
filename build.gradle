@@ -10,7 +10,7 @@ ext {
   slf4jVersion = '1.7.26'
   projectLombokVersion = '1.16.20'
   elasticSearchClientVersion = '6.8.6'
-  jerseyVersion = '2.29.1'
+  jerseyVersion = '2.9.1'
   jettyVersion = '9.4.24.v20191120'
   junitVersion = '4.13'
 }
