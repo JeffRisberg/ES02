@@ -1,5 +1,6 @@
 package com.company;
 
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -18,20 +19,10 @@ import java.net.InetSocketAddress;
  * @author Jeff Risberg
  * @since 11/30/17
  */
+@Slf4j
 public class Main {
-  private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
   public static void main(String[] args) throws Exception {
-    logger.error("main starting");
-
-    String clusterName = "elasticsearch";
-    String indexName = "products";
-
-    Settings settings = Settings.builder()
-      .put("cluster.name", clusterName).build();
-
-    Client client = new PreBuiltTransportClient(settings)
-      .addTransportAddress(new TransportAddress(new InetSocketAddress("127.0.0.1", 9300)));
 
     Server server = new Server(8080);
 
