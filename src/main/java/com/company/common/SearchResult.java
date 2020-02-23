@@ -18,6 +18,8 @@ public class SearchResult {
   @Getter @Setter
   private String contentId;
   @Getter @Setter
+  private String type;
+  @Getter @Setter
   private float score;
   @Getter
   private ResultPosition position;

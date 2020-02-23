@@ -45,7 +45,7 @@ public class ESSearchImpl implements ISearch {
     Settings settings = Settings.builder()
       .put("cluster.name", clusterName).build();
 
-    client = new PreBuiltTransportClient(settings)
+    this.client = new PreBuiltTransportClient(settings)
       .addTransportAddress(new TransportAddress(new InetSocketAddress(hostname, port)));
   }
 
@@ -59,9 +59,11 @@ public class ESSearchImpl implements ISearch {
     if (hits != null) {
       for (SearchHit hit : hits) {
         SearchResult.SearchResultBuilder searchResult = SearchResult.builder();
-        searchResult.score(hit.getScore());
+
         searchResult.contentId(hit.getId());
         searchResult.indexId(hit.getIndex());
+        searchResult.type(hit.getType());
+        searchResult.score(hit.getScore());
         searchResult.sourceAsString(hit.getSourceAsString());
 
         consumer.accept(searchResult.build());
@@ -120,10 +122,13 @@ public class ESSearchImpl implements ISearch {
         if (clauseType == SearchQueryClause.ClauseType.ALL) {
           QueryBuilder query = QueryBuilders.matchAllQuery();
           rootQuery.must(query);
-        } else if (clauseType == SearchQueryClause.ClauseType.TERM) {
+        } else if (clauseType == SearchQueryClause.ClauseType.MATCH) {
+          QueryBuilder query = QueryBuilders.matchQuery(fieldName, text);
+          rootQuery.must(query);
+        } else if (clauseType == SearchQueryClause.ClauseType.MATCH_TERM) {
           QueryBuilder query = QueryBuilders.termQuery(fieldName, text);
           rootQuery.must(query);
-        } else if (clauseType == SearchQueryClause.ClauseType.PHRASE) {
+        } else if (clauseType == SearchQueryClause.ClauseType.MATCH_PHRASE) {
           QueryBuilder query = QueryBuilders.matchPhraseQuery(fieldName, text);
           rootQuery.must(query);
         } else {

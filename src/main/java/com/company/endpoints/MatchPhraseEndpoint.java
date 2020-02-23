@@ -1,5 +1,9 @@
 package com.company.endpoints;
 
+import com.company.common.ISearch;
+import com.company.common.SearchQuery;
+import com.company.common.SearchQueryClause;
+import com.company.es.ESSearchImpl;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.TransportAddress;
@@ -7,6 +11,7 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import javax.inject.Inject;
@@ -29,43 +34,35 @@ import java.util.List;
 @Path("matchPhrase")
 public class MatchPhraseEndpoint {
 
-  String clusterName = "elasticsearch";
-  String indexName = "products";
-
-  protected Client client;
+  protected List<String> indexes = new ArrayList<>();
 
   @Inject
   public MatchPhraseEndpoint() {
-
-    Settings settings = Settings.builder()
-      .put("cluster.name", clusterName).build();
-
-    this.client = new PreBuiltTransportClient(settings)
-      .addTransportAddress(new TransportAddress(new InetSocketAddress("127.0.0.1", 9300)));
+    indexes.add("products");
   }
 
   @GET
-  @Path("{query}")
+  @Path("{fieldName}/{text}")
   @Produces(MediaType.APPLICATION_JSON)
-  public Response matchQuery(@PathParam("query") String queryStr) {
-    QueryBuilder query = QueryBuilders.matchPhraseQuery("description", queryStr);
-    System.out.println("search query => " + query.toString());
+  public Response matchQuery(@PathParam("fieldName") String fieldName, @PathParam("text") String text) {
 
-    SearchHit[] hits = client.prepareSearch(indexName).setQuery(query).execute().actionGet().getHits().getHits();
+    ISearch search = new ESSearchImpl("127.0.0.1", 9300, "elasticsearch", indexes);
 
-    List<JSONObject> list = new ArrayList<JSONObject>();
-    for (SearchHit hit : hits) {
+    SearchQueryClause clause1 = new SearchQueryClause(SearchQueryClause.ClauseType.MATCH_PHRASE, fieldName, text);
+
+    JSONArray result = new JSONArray();
+
+    search.search(SearchQuery.builder().clause(clause1).build(), item -> {
       JSONObject hitJSON = new JSONObject();
 
-      hitJSON.put("_id", hit.getId());
-      hitJSON.put("_score", hit.getScore());
-      hitJSON.put("_index", hit.getIndex());
-      hitJSON.put("_type", hit.getType());
-      hitJSON.put("_source", hit.getSourceAsMap());
+      hitJSON.put("id", item.getId());
+      hitJSON.put("score", item.getScore());
+      hitJSON.put("content", item.getSourceAsString());
+      hitJSON.put("type", item.getType());
 
-      list.add(hitJSON);
-    }
+      result.add(hitJSON);
+    });
 
-    return Response.status(Response.Status.OK).entity(list).build();
+    return Response.status(Response.Status.OK).entity(result).build();
   }
 }

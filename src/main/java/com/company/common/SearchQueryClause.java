@@ -13,7 +13,8 @@ public class SearchQueryClause {
 
   public enum ClauseType {
     ALL,
-    TERM,
-    PHRASE
+    MATCH,
+    MATCH_TERM,
+    MATCH_PHRASE
   }
 }

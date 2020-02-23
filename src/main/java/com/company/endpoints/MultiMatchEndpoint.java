@@ -48,7 +48,7 @@ public class MultiMatchEndpoint {
   @Path("{query}")
   @Produces(MediaType.APPLICATION_JSON)
   public Response matchQuery(@PathParam("query") String queryStr) {
-    QueryBuilder query = QueryBuilders.multiMatchQuery(queryStr, "name", "descrption", "tags");
+    QueryBuilder query = QueryBuilders.multiMatchQuery(queryStr, "name", "description", "tags");
     System.out.println("search query => " + query.toString());
 
     SearchHit[] hits = client.prepareSearch(indexName).setQuery(query).execute().actionGet().getHits().getHits();

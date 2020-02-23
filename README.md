@@ -11,12 +11,12 @@
 
 1) Test with http://localhost:8080/hello
 2) Then try http://localhost:8080/get/1
-3) Then try http://localhost:8080/term/meat
+3) Then try http://localhost:8080/term/category/meat
 
 This will perform a TermQuery for products with "meat" in the their category.  We 
 only fetch the first 20 (there about about 19 of them).
 
-4) Then try http://localhost:8080/match/Pellentesque
+4) Then try http://localhost:8080/match/description/Pellentesque
 
 This will perform a MatchQuery for products with "Pellentesque" in their description.
 There are about 190 of them of them, but we only fetch the first 10.
