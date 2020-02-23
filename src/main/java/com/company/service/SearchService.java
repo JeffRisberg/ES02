@@ -1,13 +1,10 @@
 package com.company.service;
 
 import com.company.common.SearchQuery;
-import com.company.common.SearchResultRecord;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.SearchHit;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Consumer;
 
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
