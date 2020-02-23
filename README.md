@@ -4,7 +4,7 @@
 ### Start ElasticSearch
 1) Download elasticsearch from [here](https://www.elastic.co/downloads/elasticsearch)   
 2) Extract downloaded elasticsearch     
-3) cd elasticsearch-6.8.5       
+3) cd elasticsearch-6.8.6      
 4) $ bin/elasticsearch
 
 ### Start the application
