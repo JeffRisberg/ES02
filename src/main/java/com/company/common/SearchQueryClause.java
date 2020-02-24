@@ -15,6 +15,7 @@ public class SearchQueryClause {
     ALL,
     MATCH,
     MATCH_TERM,
-    MATCH_PHRASE
+    MATCH_PHRASE,
+    MULTI_MATCH
   }
 }

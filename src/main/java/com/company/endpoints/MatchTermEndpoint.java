@@ -63,6 +63,8 @@ public class MatchTermEndpoint {
       result.add(hitJSON);
     });
 
+    search.destroy();
+
     return Response.status(Response.Status.OK).entity(result).build();
   }
 }

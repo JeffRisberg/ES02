@@ -2,6 +2,7 @@ package com.company.common;
 
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.delete.DeleteResponse;
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.index.reindex.BulkByScrollResponse;
 
@@ -13,6 +14,8 @@ public interface ISearch {
   public void search(SearchQuery searchQuery, Consumer<SearchResult> consumer);
 
   public long count(SearchQuery searchQuery);
+
+  public SearchResult get(String indexName, String id);
 
   public IndexResponse ingest(String indexName, String type, String doc);
 

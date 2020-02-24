@@ -1,10 +1,14 @@
 package com.company.endpoints;
 
+import com.company.common.ISearch;
+import com.company.common.SearchResult;
+import com.company.es.ESSearchImpl;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
+import org.json.simple.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -15,6 +19,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Jeff Risberg
@@ -24,29 +30,31 @@ import java.net.InetSocketAddress;
 @Path("get")
 public class GetEndpoint {
 
-  String clusterName = "elasticsearch";
-  String indexName = "products";
-
-  protected Client client;
+  protected List<String> indexes = new ArrayList<>();
 
   @Inject
   public GetEndpoint() {
-
-    Settings settings = Settings.builder()
-      .put("cluster.name", clusterName).build();
-
-    this.client = new PreBuiltTransportClient(settings)
-      .addTransportAddress(new TransportAddress(new InetSocketAddress("127.0.0.1", 9300)));
+    indexes.add("products");
   }
 
   @GET
-  @Path("{id}")
+  @Path("{indexName}/{id}")
   @Produces(MediaType.APPLICATION_JSON)
-  public Response getOne(@PathParam("id") String id) {
-    GetResponse response = client.prepareGet(indexName, "default", id).get();
+  public Response getOne(@PathParam("indexName") String indexName, @PathParam("id") String id) {
 
-    String responseString = response.getSourceAsString();
+    ISearch search = new ESSearchImpl("127.0.0.1", 9300, "elasticsearch", indexes);
 
-    return Response.status(Response.Status.OK).entity(responseString).build();
+    SearchResult item = search.get(indexName, id);
+
+    JSONObject hitJSON = new JSONObject();
+
+    hitJSON.put("id", item.getId());
+    hitJSON.put("score", item.getScore());
+    hitJSON.put("content", item.getSourceAsString());
+    hitJSON.put("type", item.getType());
+
+    search.destroy();
+
+    return Response.status(Response.Status.OK).entity(hitJSON).build();
   }
 }

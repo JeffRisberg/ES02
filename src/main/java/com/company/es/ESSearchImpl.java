@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.delete.DeleteResponse;
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.support.WriteRequest;
 import org.elasticsearch.client.Client;
@@ -81,6 +82,24 @@ public class ESSearchImpl implements ISearch {
   }
 
   @Override
+  public SearchResult get(String indexName, String id) {
+    GetResponse getResponse = client.prepareGet(indexName, "default", id).get();
+
+    if (getResponse.isExists()) {
+      SearchResult.SearchResultBuilder searchResult = SearchResult.builder();
+
+      searchResult.contentId(getResponse.getId());
+      searchResult.indexId(getResponse.getIndex());
+      searchResult.type(getResponse.getType());
+      searchResult.sourceAsString(getResponse.getSourceAsString());
+
+      return searchResult.build();
+    } else {
+      return null;
+    }
+  }
+
+  @Override
   public IndexResponse ingest(String indexName, String type, String doc) {
     return client.prepareIndex(indexName, type).setSource(doc, XContentType.JSON).setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL).get();
   }
@@ -130,6 +149,10 @@ public class ESSearchImpl implements ISearch {
           rootQuery.must(query);
         } else if (clauseType == SearchQueryClause.ClauseType.MATCH_PHRASE) {
           QueryBuilder query = QueryBuilders.matchPhraseQuery(fieldName, text);
+          rootQuery.must(query);
+        } else if (clauseType == SearchQueryClause.ClauseType.MULTI_MATCH) {
+          String[] fieldNames = fieldName.split(",");
+          QueryBuilder query = QueryBuilders.multiMatchQuery(text, fieldNames);
           rootQuery.must(query);
         } else {
           throw new IllegalArgumentException("unknown search type");
