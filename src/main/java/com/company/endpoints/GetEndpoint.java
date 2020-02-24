@@ -2,6 +2,7 @@ package com.company.endpoints;
 
 import com.company.common.ISearch;
 import com.company.common.SearchResult;
+import com.company.config.ResourceLocator;
 import com.company.es.ESSearchImpl;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.Client;
@@ -42,7 +43,11 @@ public class GetEndpoint {
   @Produces(MediaType.APPLICATION_JSON)
   public Response getOne(@PathParam("indexName") String indexName, @PathParam("id") String id) {
 
-    ISearch search = new ESSearchImpl("127.0.0.1", 9300, "elasticsearch", indexes);
+    String hostName = ResourceLocator.getSearchHost();
+    int port = ResourceLocator.getSearchPort();
+    String clusterName = ResourceLocator.getSearchClusterName();
+
+    ISearch search = new ESSearchImpl(hostName, port, clusterName, indexes);
 
     SearchResult item = search.get(indexName, id);
 
