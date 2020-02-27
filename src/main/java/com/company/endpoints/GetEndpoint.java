@@ -48,9 +48,11 @@ public class GetEndpoint {
     JSONObject hitJSON = new JSONObject();
 
     hitJSON.put("id", item.getId());
-    hitJSON.put("score", item.getScore());
-    hitJSON.put("content", item.getSourceAsString());
+    hitJSON.put("contentId", item.getContentId());
+    hitJSON.put("indexId", item.getIndexId());
     hitJSON.put("type", item.getType());
+    hitJSON.put("content", item.getSourceAsString());
+    hitJSON.put("score", item.getScore());
 
     search.destroy();
 
