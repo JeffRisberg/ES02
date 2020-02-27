@@ -3,15 +3,8 @@ package com.company.endpoints;
 import com.company.common.ISearch;
 import com.company.common.SearchQuery;
 import com.company.common.SearchQueryClause;
-import com.company.config.ResourceLocator;
+import com.company.config.PropertyManager;
 import com.company.es.ESSearchImpl;
-import org.elasticsearch.client.Client;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.TransportAddress;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -23,7 +16,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,9 +39,9 @@ public class MultiMatchEndpoint {
   @Produces(MediaType.APPLICATION_JSON)
   public Response multiMatchQuery(@PathParam("fieldNames") String fieldNames, @PathParam("text") String text) {
 
-    String hostName = ResourceLocator.getSearchHost();
-    int port = ResourceLocator.getSearchPort();
-    String clusterName = ResourceLocator.getSearchClusterName();
+    String hostName = PropertyManager.getSearchHost();
+    int port = PropertyManager.getSearchPort();
+    String clusterName = PropertyManager.getSearchClusterName();
 
     ISearch search = new ESSearchImpl(hostName, port, clusterName, indexes);
 

@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.Properties;
 
 @Slf4j
-public class ResourceLocator {
+public class PropertyManager {
   private static final String SEARCH_HOST_KEY = "es02.search.host";
   private static final String SEARCH_PORT_KEY = "es02.search.port";
   private static final String SEARCH_CLUSTER_NAME_KEY = "es02.search.clusterName";

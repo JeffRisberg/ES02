@@ -3,7 +3,7 @@ package com.company.endpoints;
 import com.company.common.ISearch;
 import com.company.common.SearchQuery;
 import com.company.common.SearchQueryClause;
-import com.company.config.ResourceLocator;
+import com.company.config.PropertyManager;
 import com.company.es.ESSearchImpl;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -39,9 +39,9 @@ public class MatchEndpoint {
   @Produces(MediaType.APPLICATION_JSON)
   public Response matchQuery(@PathParam("fieldName") String fieldName, @PathParam("text") String text) {
 
-    String hostName = ResourceLocator.getSearchHost();
-    int port = ResourceLocator.getSearchPort();
-    String clusterName = ResourceLocator.getSearchClusterName();
+    String hostName = PropertyManager.getSearchHost();
+    int port = PropertyManager.getSearchPort();
+    String clusterName = PropertyManager.getSearchClusterName();
 
     ISearch search = new ESSearchImpl(hostName, port, clusterName, indexes);
 
