@@ -27,24 +27,32 @@ public class OAuth2Endpoint {
   public Response test1(@PathParam("tenantId") String tenantId,
                         @FormParam("alpha") String alpha,
                         @FormParam("beta") String beta) {
-    JSONObject result = new JSONObject();
-    Object results = "Test1 " + tenantId + " " + alpha + " " + beta;
+    OAuth2Request result = new OAuth2Request();
+    result.tenantId = tenantId;
+    result.alpha = alpha;
+    result.beta = beta;
 
-    return Response.status(Response.Status.OK).entity(results).build();
+    return Response.status(Response.Status.OK).entity(result).build();
   }
 
   @POST
   @Path("/test2")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public Response test2(@PathParam("tenantId") String tenantId,
                         @FormParam("alpha") String alpha,
                         @FormParam("beta") String beta) {
-    JSONObject result = new JSONObject();
+    OAuth2Request result = new OAuth2Request();
+    result.tenantId = tenantId;
+    result.alpha = alpha;
+    result.beta = beta;
 
+    return Response.status(Response.Status.OK).entity(result).build();
+  }
 
-    Object results = "Test2 " + tenantId + " " + alpha + " " + beta;
-
-    return Response.status(Response.Status.OK).entity(results).build();
+  public class OAuth2Request {
+    protected String tenantId;
+    protected String alpha;
+    protected String beta;
   }
 }
