@@ -63,7 +63,7 @@ public class PropertyManager {
   }
 
   /**
-   * Dynamic properties per namespace
+   * Get Resource
    *
    * @param namespace
    * @param key
@@ -72,13 +72,6 @@ public class PropertyManager {
   public static Optional<String> getResource(String namespace, String key) {
     final String newKey = key.replaceAll("\\.", "_");
     return getResource(newKey);
-
-    /*
-    return DynamicProperties.getInstance()
-      .map(dp -> dp.getProperty(namespace, newKey)) // get the dynamic property
-      .filter(op -> op.isPresent()) // if dynamic property is not present, default to the static property
-      .orElse(getResource(key));
-      */
   }
 
   /**
