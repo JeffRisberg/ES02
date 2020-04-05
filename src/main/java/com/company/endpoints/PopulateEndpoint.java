@@ -75,7 +75,7 @@ public class PopulateEndpoint {
          * the document is only indexed if it does not already exist.
          * To update an existing document, you must use the _doc resource.
          */
-        String type = "_doc";
+        String type = "default";
 
         Request indexRequest = new Request("POST", "/" + indexName + "/" + type + "?refresh=wait_for");
         indexRequest.setJsonEntity(((JSONObject) article).toJSONString());
