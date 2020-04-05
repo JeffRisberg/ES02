@@ -22,7 +22,7 @@ import java.util.List;
  * @since 12/23/17
  */
 @Singleton
-@Path("get")
+@Path("getArticle")
 public class GetArticleEndpoint {
 
   protected List<String> indexes = new ArrayList<>();
