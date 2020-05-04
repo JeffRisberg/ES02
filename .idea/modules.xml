@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ES02.iml" filepath="$PROJECT_DIR$/ES02.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ES02.iml" filepath="$PROJECT_DIR$/ES02.iml" group="ES02" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ES02_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ES02_main.iml" group="ES02" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ES02_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ES02_test.iml" group="ES02" />
     </modules>
