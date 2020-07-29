@@ -14,7 +14,7 @@ ext {
   jettyVersion = '9.4.26.v20200117'
   jacksonVersion = '2.10.3'
   hk2Version = '2.6.0'
-  elasticSearchClientVersion = '6.8.8'
+  elasticSearchClientVersion = '6.8.11'
   junitVersion = '4.13'
 }
 
