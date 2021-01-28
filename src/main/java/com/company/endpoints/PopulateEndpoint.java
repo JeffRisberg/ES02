@@ -38,9 +38,8 @@ public class PopulateEndpoint {
   }
 
   @GET
-  @Path("/")
   @Produces(MediaType.APPLICATION_JSON)
-  public Response count() {
+  public Response populate() {
     JSONParser parser = new JSONParser();
 
     String indexName = "articles";
