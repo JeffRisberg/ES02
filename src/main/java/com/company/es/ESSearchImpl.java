@@ -20,6 +20,7 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.reindex.BulkByScrollResponse;
 import org.elasticsearch.index.reindex.DeleteByQueryAction;
+import org.elasticsearch.index.reindex.DeleteByQueryRequestBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 
@@ -43,11 +44,11 @@ public class ESSearchImpl implements ISearch {
     this.clusterName = clusterName;
     this.indexes = indexes;
 
-    Settings settings = Settings.builder()
-      .put("cluster.name", clusterName).build();
+    Settings settings = Settings.builder().put("cluster.name", clusterName).build();
 
-    this.client = new PreBuiltTransportClient(settings)
-      .addTransportAddress(new TransportAddress(new InetSocketAddress(hostname, port)));
+    this.client =
+        new PreBuiltTransportClient(settings)
+            .addTransportAddress(new TransportAddress(new InetSocketAddress(hostname, port)));
   }
 
   @Override
@@ -55,7 +56,8 @@ public class ESSearchImpl implements ISearch {
     BoolQueryBuilder query = this.createBoolQuery(searchQuery);
     String indexName = indexes.get(0);
 
-    SearchHit[] hits = client.prepareSearch(indexName).setQuery(query).execute().actionGet().getHits().getHits();
+    SearchHit[] hits =
+        client.prepareSearch(indexName).setQuery(query).execute().actionGet().getHits().getHits();
 
     if (hits != null) {
       for (SearchHit hit : hits) {
@@ -77,7 +79,16 @@ public class ESSearchImpl implements ISearch {
     BoolQueryBuilder query = this.createBoolQuery(searchQuery);
     String indexName = indexes.get(0);
 
-    long count = client.prepareSearch(indexName).setQuery(query).setSize(0).execute().actionGet().getHits().getTotalHits();
+    long count =
+        client
+            .prepareSearch(indexName)
+            .setQuery(query)
+            .setSize(0)
+            .execute()
+            .actionGet()
+            .getHits()
+            .getTotalHits()
+            .value;
     return count;
   }
 
@@ -101,13 +112,21 @@ public class ESSearchImpl implements ISearch {
 
   @Override
   public IndexResponse ingest(String indexName, String type, String doc) {
-    return client.prepareIndex(indexName, type).setSource(doc, XContentType.JSON).setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL).get();
+    return client
+        .prepareIndex(indexName, type)
+        .setSource(doc, XContentType.JSON)
+        .setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL)
+        .get();
   }
 
   @Override
   public BulkResponse ingest(String indexName, String type, List<String> docs) {
     BulkRequestBuilder bulkRequest = client.prepareBulk();
-    docs.forEach(doc -> bulkRequest.add(client.prepareIndex(indexName, type).setSource(doc, XContentType.JSON)).get());
+    docs.forEach(
+        doc ->
+            bulkRequest
+                .add(client.prepareIndex(indexName, type).setSource(doc, XContentType.JSON))
+                .get());
 
     return bulkRequest.setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL).get();
   }
@@ -120,11 +139,11 @@ public class ESSearchImpl implements ISearch {
   @Override
   public BulkByScrollResponse deleteByQuery(String indexName, String description) {
     BulkByScrollResponse response =
-      DeleteByQueryAction.INSTANCE.newRequestBuilder(client)
-        .filter(QueryBuilders.matchPhraseQuery("description", description))
-        .source(indexName)
-        .refresh(true)
-        .get();
+        new DeleteByQueryRequestBuilder(client, DeleteByQueryAction.INSTANCE)
+            .filter(QueryBuilders.matchPhraseQuery("description", description))
+            .source(indexName)
+            .refresh(true)
+            .get();
 
     return response;
   }
