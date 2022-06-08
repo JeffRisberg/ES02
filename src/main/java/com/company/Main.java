@@ -1,5 +1,6 @@
 package com.company;
 
+import com.squarespace.jersey2.guice.JerseyGuiceUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -21,6 +22,10 @@ import java.net.InetSocketAddress;
  */
 @Slf4j
 public class Main {
+
+  static {
+    JerseyGuiceUtils.install((s, serviceLocator) -> null);
+  }
 
   public static void main(String[] args) throws Exception {
 
